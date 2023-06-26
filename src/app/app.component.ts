@@ -6,5 +6,23 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'angular_sandbox';
+  serverElements = [{type: "server", name: "Test Server", content: "Just a Test!"}];
+
+  onServerAdded(serverData: {name: string, content: string}) {
+    this.serverElements.push({
+      type: 'server',
+      name: serverData.name,
+      content: serverData.content
+    });
+  }
+
+  onBlueprintAdded(serverData: {name: string, content: string}) {
+    this.serverElements.push({
+      type: 'blueprint',
+      name: serverData.name,
+      content: serverData.content
+    });
+  }
+
+
 }
