@@ -6,31 +6,26 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  serverElements = [{type: "server", name: "Test Server", content: "Just a Test!"}];
+  accounts = [
+    {
+      name: 'Master Account',
+      status: 'active'
+    },
+    {
+      name: 'Testaccount',
+      status: 'inactive'
+    },
+    {
+      name: 'Hidden Account',
+      status: 'unknown'
+    }
+  ];
 
-  numbers = [1, 2, 3, 4, 5];
-  onlyOdd = false;
-  value = 5;
-
-  onServerAdded(serverData: {name: string, content: string}) {
-    this.serverElements.push({
-      type: 'server',
-      name: serverData.name,
-      content: serverData.content
-    });
+  onAccountAdded(newAccount: {name: string, status: string}) {
+    this.accounts.push(newAccount);
   }
 
-  onBlueprintAdded(serverData: {name: string, content: string}) {
-    this.serverElements.push({
-      type: 'blueprint',
-      name: serverData.name,
-      content: serverData.content
-    });
-
-
-
-
+  onStatusChanged(updateInfo: {id: number, newStatus: string}) {
+    this.accounts[updateInfo.id].status = updateInfo.newStatus;
   }
-
-
 }
