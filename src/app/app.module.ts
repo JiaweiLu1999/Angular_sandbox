@@ -14,6 +14,11 @@ import { ServersService } from './servers/servers.service';
 import {UsersService} from "./users/users.service";
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import {AppRouteModule} from "./app-route.module";
+import {AuthService} from "./auth.service";
+import {AuthGuardService} from "./auth-guard.service";
+import {CanDeactivateGuardService} from "./servers/edit-server/can-deactivate-guard.service";
+import { ErrorPageComponent } from './error-page/error-page.component';
+import {ServerResolver} from "./servers/server-resolver.service";
 
 
 
@@ -26,14 +31,16 @@ import {AppRouteModule} from "./app-route.module";
     UserComponent,
     EditServerComponent,
     ServerComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    ErrorPageComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRouteModule
   ],
-  providers: [ServersService, UsersService],
+  providers: [ServersService, UsersService, AuthService, AuthGuardService, CanDeactivateGuardService,
+    ErrorPageComponent, ServerResolver],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
