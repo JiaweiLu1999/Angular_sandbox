@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from "@angular/router";
-import {AuthService} from "../auth.service";
 
 @Component({
   selector: 'app-home',
@@ -9,21 +7,9 @@ import {AuthService} from "../auth.service";
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private appRouter: Router, private authService: AuthService) { }
+  constructor() { }
 
   ngOnInit() {
-  }
-
-  OnLoadServer(id: number) {
-    this.appRouter.navigate(['/servers', id, 'edit'], {queryParams: {allowEdit: 1}, fragment: 'loading'});
-  }
-
-  onLogin() {
-    this.authService.login();
-  }
-
-  onLogout() {
-    this.authService.logout();
   }
 
 }
