@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
-import {Observable} from "rxjs";
+import {AbstractControl, FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-root',
@@ -8,58 +7,45 @@ import {Observable} from "rxjs";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit{
-  genders = ['male', 'female'];
   signupForm: FormGroup = new FormGroup({});
-  reservedUsernames = ["Javey"];
+  projectStatus = ['Stable', 'Critical', 'Finished'];
+  forbiddenProjectName = ['Test'];
+  forbiddenEmail = ['jl5999@columbia.edu'];
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.signupForm = new FormGroup({
-      "user-data": new FormGroup({
-        "username": new FormControl(null, [Validators.required, this.usernameValidate.bind(this)]),
-        "email": new FormControl(null, [Validators.required, Validators.email], [this.emailValidate])
-      }),
-      "gender": new FormControl("male"),
-      "hobby": new FormArray([])
+      "projectName": new FormControl(null, [Validators.required, this.projectNameValidator.bind(this)]),
+      "email": new FormControl(null, [Validators.email, Validators.required], this.emailValidator.bind(this)),
+      "projectStatus": new FormControl('Stable')
     });
-    let email = this.signupForm.get("user-data.email");
-    if (email) {
-      email.statusChanges.subscribe(
-        (status) => {
-          console.log(status)}
-      )
-    }
-
   }
 
-  onSubmit() {
-    console.log(this.signupForm);
-  }
 
-  onAddHobby() {
-    (<FormArray>this.signupForm.get('hobby')).push(new FormControl(null, Validators.required));
-    console.log(this.getControls())
-  }
 
-  getControls() {
-    return (<FormArray>this.signupForm.get('hobby')).controls;
-  }
-
-  usernameValidate(control: FormControl): {[s: string]: boolean}|null {
-    if (this.reservedUsernames.indexOf(control.value) !== -1) {
-      return {"nameIsForbidden" : true};
+  projectNameValidator(control: FormControl): {[s:string]: boolean} | null {
+    if (this.forbiddenProjectName.indexOf(control.value) !== -1) {
+      return {'projectNameForbidden' : true};
     }
     return null;
   }
 
-  emailValidate(control: AbstractControl): Promise<ValidationErrors | null> {
-    return new Promise<any>((resolve, reject) => {
-      setTimeout(() => {
-        if (control.value === "jl5999@columbia.edu") {
-          resolve({"emailIsForbidden": true});
-        } else {
-          resolve(null);
-        }
-      }, 1500);
-    });
+  emailValidator(control: AbstractControl): Promise<any> {
+    return new Promise(
+      (resolve, reject) => {
+        setTimeout(()=> {
+          if (this.forbiddenEmail.indexOf(control.value) !== -1) {
+            resolve({'emailIsForbidden': true});
+          } else {
+            resolve(null);
+          }
+        }, 1000);
+      }
+    );
   }
+
+  onSubmit() {
+    console.log(this.signupForm.value);
+  }
+
+
 }
